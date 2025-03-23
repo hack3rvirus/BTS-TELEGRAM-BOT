@@ -1,0 +1,14 @@
+APScheduler==3.6.3
+cachetools==4.2.2
+certifi==2025.1.31
+mysql-connector-python==8.0.33
+protobuf==3.20.3
+python-telegram-bot==13.7
+pytz==2025.1
+setuptools==77.0.1
+six==1.16.0
+telegram==0.0.1
+tornado==6.4.2
+tzdata==2025.1
+tzlocal==5.3.1
+urllib3==1.26.6
