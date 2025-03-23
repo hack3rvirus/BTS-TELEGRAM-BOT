@@ -1,0 +1,10 @@
+# Ignore virtual environment folder
+.venv/
+
+# Ignore sensitive files
+*.env
+*.pyc
+__pycache__/
+
+# Ignore database files (if any)
+*.db
