@@ -8,17 +8,22 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_db_connection():
-    print(f"DB_HOST: {os.getenv('DB_HOST')}")
-    print(f"DB_PORT: {os.getenv('DB_PORT')}")
-    print(f"DB_USER: {os.getenv('DB_USER')}")
-    print(f"DB_PASSWORD: {os.getenv('DB_PASSWORD')}")
-    print(f"DB_NAME: {os.getenv('DB_NAME')}")
+    host = os.getenv("DB_HOST") or "mysql.railway.internal"
+    port = int(os.getenv("DB_PORT", 3306))
+    user = os.getenv("DB_USER") or "root"
+    password = os.getenv("DB_PASSWORD") or "qItgFGuqsyxICAvhiBitaijtiQZuujAD"
+    database = os.getenv("DB_NAME") or "railway"
+    print(f"DB_HOST: {host}")
+    print(f"DB_PORT: {port}")
+    print(f"DB_USER: {user}")
+    print(f"DB_PASSWORD: {password}")
+    print(f"DB_NAME: {database}")
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        port=int(os.getenv("DB_PORT", 3306)),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+        host=host,
+        port=port,
+        user=user,
+        password=password,
+        database=database
     )
 
 def setup_database():
