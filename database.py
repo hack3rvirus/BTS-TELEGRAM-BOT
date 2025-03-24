@@ -2,10 +2,7 @@
 import mysql.connector
 import os
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
 
 def get_db_connection():
     host = os.getenv("DB_HOST") or "mysql.railway.internal"

@@ -6,10 +6,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardBut
 from telegram.error import NetworkError
 import database
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
 
 # Retrieve the bot token from environment variables
 TOKEN = os.getenv("TOKEN")
