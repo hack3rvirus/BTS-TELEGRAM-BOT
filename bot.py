@@ -474,8 +474,6 @@ def remind(update, context):
     update.message.reply_text("Reminders sent to users with upcoming or overdue subscriptions.")
 
 def main():
-    database.setup_database()
-    database.test_connection()
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start))
