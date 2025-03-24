@@ -25,7 +25,6 @@ def get_db_connection():
         password=password,
         database=database
     )
-
 def setup_database():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
