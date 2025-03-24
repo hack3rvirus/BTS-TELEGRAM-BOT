@@ -1,10 +1,18 @@
 # bot.py
+import os
+import time
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand, BotCommandScopeChat
+from telegram.error import NetworkError
 import database
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
-TOKEN = "7799717272:AAEtUL6yMYizgkdMQFHx_u3qj20UvVQxL1Y"  # Token for @BTS0BOT_BOT
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve the bot token from environment variables
+TOKEN = os.getenv("TOKEN")
 PAYMENT_ADMIN = "@BTS_SUBSCRIPTION"  # First admin for payment
 MAIN_ADMIN = "@BTSADMIN0"  # Second admin for main chat
 ADMIN_IDS = [7104554772, 7105191693]  # List of admin IDs
@@ -469,6 +477,8 @@ def remind(update, context):
     update.message.reply_text("Reminders sent to users with upcoming or overdue subscriptions.")
 
 def main():
+    database.setup_database()
+    database.test_connection()
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start))
@@ -483,9 +493,16 @@ def main():
     dp.add_handler(CommandHandler("pending_payments", pending_payments))
     dp.add_handler(CommandHandler("confirm_payment", confirm_payment))
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
-    updater.start_polling()
-    print("Bot is running...")
-    updater.idle()
+
+    while True:
+        try:
+            print("Bot is running...")
+            updater.start_polling(poll_interval=2.0)
+            updater.idle()
+            break
+        except NetworkError as e:
+            print(f"Network error: {e}. Retrying in 10 seconds...")
+            time.sleep(10)
 
 if __name__ == "__main__":
     main()
