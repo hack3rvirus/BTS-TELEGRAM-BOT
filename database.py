@@ -1,14 +1,24 @@
 # database.py
 import mysql.connector
+import os
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 def get_db_connection():
+    print(f"DB_HOST: {os.getenv('DB_HOST')}")
+    print(f"DB_PORT: {os.getenv('DB_PORT')}")
+    print(f"DB_USER: {os.getenv('DB_USER')}")
+    print(f"DB_PASSWORD: {os.getenv('DB_PASSWORD')}")
+    print(f"DB_NAME: {os.getenv('DB_NAME')}")
     return mysql.connector.connect(
-        host="127.0.0.1",
-        port=3306,
-        user="root",
-        password="5050",
-        database="telegram_bot_db"
+        host=os.getenv("DB_HOST"),
+        port=int(os.getenv("DB_PORT", 3306)),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
 
 def setup_database():
