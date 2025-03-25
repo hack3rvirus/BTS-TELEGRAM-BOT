@@ -134,7 +134,7 @@ def handle_message(update, context):
         else:
             update.message.reply_text("No access. Please complete your subscription payment to chat with your favorite BTS artist. 🎵")
     else:
-        update.message.reply_text("Please choose an option:", reply_markup=get_user_keyboard(telegram_id))
+        update.message.reply_text("Please type /help to send a message to the BTS admins.", reply_markup=get_user_keyboard(telegram_id))
         database.log_interaction(telegram_id, message_text)
 
 def handle_help_message(update, context):
