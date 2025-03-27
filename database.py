@@ -3,7 +3,6 @@ import mysql.connector
 import os
 from datetime import datetime, timedelta
 
-
 def get_db_connection():
     host = os.getenv("DB_HOST") or "mysql.railway.internal"
     port = int(os.getenv("DB_PORT", 3306))
@@ -22,6 +21,7 @@ def get_db_connection():
         password=password,
         database=database
     )
+
 def setup_database():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -90,6 +90,20 @@ def get_all_users():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT telegram_id, username, chat_id FROM users")
+    users = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return users
+
+def get_users_with_handshake():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT DISTINCT u.telegram_id, u.username, u.chat_id
+        FROM users u
+        JOIN interactions i ON u.telegram_id = i.telegram_id
+        WHERE i.message = 'handshake'
+    """)
     users = cursor.fetchall()
     cursor.close()
     conn.close()

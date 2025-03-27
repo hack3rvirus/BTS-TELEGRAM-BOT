@@ -7,7 +7,6 @@ from telegram.error import NetworkError
 import database
 from datetime import datetime, timedelta
 
-
 # Retrieve the bot token from environment variables
 TOKEN = os.getenv("TOKEN")
 PAYMENT_ADMIN = "@BTS_SUBSCRIPTION"  # First admin for payment
@@ -281,13 +280,13 @@ def list_users(update, context):
         update.message.reply_text("You are not authorized to use this command.")
         return
 
-    users = database.get_all_users()
+    users = database.get_users_with_handshake()
     if not users:
-        update.message.reply_text("No users found.")
+        update.message.reply_text("No users found who have initiated a handshake.")
         return
 
-    user_list = "\n".join([f"ID: {user['telegram_id']}, Username: {user['username']}" for user in users])
-    update.message.reply_text(f"Registered users:\n{user_list}")
+    user_list = "\n".join([f"ID: {user['telegram_id']}, Username: {user['username']}, Chat ID: {user['chat_id']}" for user in users])
+    update.message.reply_text(f"Users who have initiated a handshake:\n{user_list}")
 
 def chat(update, context):
     print("Received /chat command")  # Debug
